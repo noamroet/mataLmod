@@ -1,0 +1,33 @@
+# Secrets — never commit
+.env
+.env.production
+.env.staging
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+frontend/.env.local
+
+# Docker volumes (if bind-mounted)
+pgdata/
+
+# Claude Code
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,421 @@
+{
+  "common": {
+    "loading": "טוען...",
+    "error": "אירעה שגיאה",
+    "retry": "נסה שוב",
+    "back": "חזרה",
+    "next": "המשך",
+    "submit": "חשב זכאות",
+    "cancel": "ביטול",
+    "close": "סגור",
+    "required": "שדה חובה",
+    "optional": "רשות",
+    "year": "שנה",
+    "years": "שנים"
+  },
+  "nav": {
+    "home": "בית",
+    "intake": "בדיקת זכאות",
+    "results": "תוצאות",
+    "toggleLanguage": "English"
+  },
+  "intake": {
+    "title": "גלה אילו תארים מחכים לך",
+    "subtitle": "ענה על כמה שאלות קצרות ונמצא עבורך את תוכניות הלימוד שאתה זכאי אליהן",
+    "stepOf": "שלב {current} מתוך {total}",
+    "steps": {
+      "1": "ציוני בגרות",
+      "2": "פסיכומטרי",
+      "3": "העדפות"
+    },
+    "step1": {
+      "title": "ציוני הבגרות שלך",
+      "description": "הזן את ציוני הבגרות שלך. ניתן להוסיף מספר מקצועות.",
+      "addSubject": "הוסף מקצוע",
+      "removeSubject": "הסר מקצוע",
+      "subjectLabel": "מקצוע",
+      "unitsLabel": "יחידות לימוד",
+      "gradeLabel": "ציון",
+      "gradePlaceholder": "0–100",
+      "unitOption3": "3 יח\"ל",
+      "unitOption4": "4 יח\"ל",
+      "unitOption5": "5 יח\"ל",
+      "selectUnits": "בחר יחידות",
+      "weightedAverage": "ממוצע בגרות משוקלל",
+      "weightedAverageTooltip": "הממוצע המשוקלל מחושב לפי יחידות לימוד. מקצועות ב-5 יח\"ל מקבלים בונוס ×1.25. כך מחשב כל אוניברסיטה בישראל.",
+      "estimatedCheckbox": "לא זוכר את הציונים המדויקים",
+      "estimatedLabel": "ממוצע בגרות משוערך",
+      "estimatedPlaceholder": "לדוגמה: 90",
+      "rowCount": "מקצוע {n}",
+      "validation": {
+        "gradeRange": "הציון חייב להיות בין 0 ל-100",
+        "gradeRequired": "יש להזין ציון",
+        "unitsRequired": "יש לבחור יחידות לימוד",
+        "subjectRequired": "יש לבחור מקצוע",
+        "atLeastOne": "יש להזין לפחות מקצוע בגרות אחד",
+        "duplicateSubject": "מקצוע זה כבר נוסף. אנא בחר מקצוע אחר.",
+        "estimatedRange": "הממוצע חייב להיות בין 0 ל-100"
+      }
+    },
+    "step2": {
+      "title": "ציון פסיכומטרי",
+      "description": "הציון הפסיכומטרי משמש לחישוב ציון הסקם יחד עם ממוצע הבגרות.",
+      "scoreLabel": "ציון פסיכומטרי",
+      "scorePlaceholder": "200–800",
+      "haventTaken": "עדיין לא נבחנתי בפסיכומטרי",
+      "haventTakenNote": "ניתן לקבל הערכה כללית על בסיס ציוני הבגרות בלבד. הציונים הסופיים יחושבו עם ציון פסיכומטרי.",
+      "tooltipButton": "מהו המבחן הפסיכומטרי?",
+      "tooltipContent": "המבחן הפסיכומטרי לכניסה למוסדות להשכלה גבוהה בישראל כולל שלושה חלקים: הסקה כמותית, הסקה מילולית ואנגלית. הציון נע בין 200 ל-800. מנוהל על ידי המט\"ח.",
+      "niteLink": "הרשמה לפסיכומטרי — אתר המט\"ח",
+      "validation": {
+        "range": "הציון חייב להיות בין 200 ל-800",
+        "required": "יש להזין ציון פסיכומטרי או לסמן שעדיין לא נבחנת"
+      }
+    },
+    "step3": {
+      "title": "העדפותיך",
+      "description": "שלב אחרון! סנן את התוצאות לפי ההעדפות שלך. כל השדות הם רשות.",
+      "fieldsTitle": "תחומי עניין",
+      "fieldsDescription": "בחר תחום אחד או יותר שמעניין אותך",
+      "locationTitle": "מיקום",
+      "locationDescription": "באיזה אזור אתה מעדיף ללמוד?",
+      "institutionTypeTitle": "סוג מוסד",
+      "studyFormatTitle": "היקף לימודים",
+      "allFieldsSelected": "כל התחומים",
+      "selectedCount": "{count} תחומים נבחרו",
+      "locations": {
+        "all": "כל הארץ",
+        "north": "צפון",
+        "center": "מרכז",
+        "south": "דרום",
+        "jerusalem": "ירושלים"
+      },
+      "institutionTypes": {
+        "universities": "אוניברסיטאות בלבד",
+        "all": "כולל מכללות"
+      },
+      "studyFormats": {
+        "full_time": "לימודים מלאים",
+        "part_time": "לימודים חלקיים",
+        "any": "אין העדפה"
+      }
+    },
+    "subjects": {
+      "math": "מתמטיקה",
+      "english": "אנגלית",
+      "hebrew_expression": "הבעה עברית",
+      "bible": "תנ\"ך",
+      "history": "היסטוריה",
+      "civics": "אזרחות",
+      "physics": "פיזיקה",
+      "chemistry": "כימיה",
+      "biology": "ביולוגיה",
+      "computer_science": "מדעי המחשב",
+      "literature": "ספרות",
+      "art": "אמנות",
+      "music": "מוסיקה",
+      "economics": "כלכלה",
+      "accounting": "חשבונאות",
+      "other": "אחר",
+      "searchPlaceholder": "חפש מקצוע...",
+      "noResults": "לא נמצאו תוצאות"
+    },
+    "fields": {
+      "computer_science": "מדעי המחשב והנדסת תוכנה",
+      "electrical_engineering": "הנדסת חשמל ואלקטרוניקה",
+      "mechanical_engineering": "הנדסה מכנית ותעשייתית",
+      "civil_engineering": "הנדסה אזרחית וסביבתית",
+      "biomedical": "הנדסה ביו-רפואית ומדעי החיים",
+      "mathematics": "מתמטיקה וסטטיסטיקה",
+      "physics_chemistry": "פיזיקה וכימיה",
+      "medicine": "רפואה ובריאות",
+      "law": "משפטים",
+      "business": "מינהל עסקים וכלכלה",
+      "psychology": "פסיכולוגיה ומדעי החברה",
+      "education": "חינוך והוראה",
+      "humanities": "מדעי הרוח",
+      "arts_design": "אמנות, עיצוב ואדריכלות",
+      "communication": "תקשורת ומדיה",
+      "agriculture": "חקלאות ומדעי המזון",
+      "other": "אחר / בין-תחומי"
+    },
+    "submit": {
+      "calculating": "מחשב זכאות...",
+      "error": "אירעה שגיאה בחישוב הזכאות. אנא בדוק את פרטיך ונסה שוב.",
+      "networkError": "בעיית תקשורת. אנא בדוק את החיבור לאינטרנט ונסה שוב."
+    }
+  },
+  "results": {
+    "title": "תוצאות הזכאות שלך",
+    "subtitle": "נמצאו {total} תוכניות",
+    "subtitleFiltered": "מוצגות {shown} מתוך {total} תוכניות",
+    "noResults": "לא נמצאו תוצאות מתאימות",
+    "noResultsHint": "נסה להרחיב את סינוני החיפוש",
+    "noResultsClear": "נקה את הסינון",
+    "loading": "טוען תוצאות...",
+    "redirecting": "מעביר אותך לדף הזנת הנתונים...",
+    "recalculate": "חשב מחדש",
+    "filters": {
+      "title": "סינון תוצאות",
+      "openButton": "סינון",
+      "close": "סגור",
+      "clearAll": "נקה סינון",
+      "institution": "מוסד אקדמי",
+      "field": "תחום לימוד",
+      "eligibility": "סטטוס זכאות",
+      "location": "מיקום",
+      "eligible": "זכאי",
+      "borderline": "גבולי",
+      "below": "מתחת לסף",
+      "activeCount": "{count} סינונים פעילים",
+      "lastUpdated": "עודכן: {date}"
+    },
+    "sort": {
+      "label": "מיון",
+      "ariaLabel": "מיין תוצאות",
+      "margin": "לפי זכאות",
+      "alpha": "לפי שם תוכנית",
+      "institution": "לפי מוסד"
+    },
+    "card": {
+      "sekem": "סקם",
+      "threshold": "סף קבלה",
+      "margin": "פער",
+      "positiveMargin": "+{margin} מעל הסף",
+      "negativeMargin": "{margin} מתחת לסף",
+      "duration": "{years} שנים",
+      "years": "שנה | שנים",
+      "compare": "השווה",
+      "compareAdded": "בהשוואה ✓",
+      "viewDetails": "לפרטי התוכנית",
+      "location": "מיקום",
+      "institution": "מוסד"
+    },
+    "comparison": {
+      "title": "השוואת תוכניות",
+      "compareButton": "השווה ({count}/3)",
+      "remove": "הסר",
+      "clearAll": "נקה הכל",
+      "maxReached": "ניתן להשוות עד 3 תוכניות בו-זמנית",
+      "selected": "{count} נבחרו להשוואה"
+    },
+    "profileSummary": {
+      "title": "הפרופיל שלך",
+      "average": "ממוצע בגרות",
+      "psychometric": "פסיכומטרי",
+      "notTaken": "לא נבחן",
+      "subjects": "מקצועות"
+    },
+    "institutionGroup": {
+      "dataAsOf": "נתונים מ-{date}"
+    }
+  },
+  "program": {
+    "eligibility": {
+      "eligible": "זכאי",
+      "borderline": "גבולי",
+      "belowThreshold": "מתחת לסף"
+    },
+    "sekem": "ציון סקם",
+    "threshold": "סף קבלה",
+    "margin": "פער"
+  },
+  "programDetail": {
+    "notFound": "התוכנית לא נמצאה",
+    "tabs": {
+      "details": "פרטי התוכנית",
+      "roadmap": "מסלול קבלה"
+    },
+    "header": {
+      "degreeType": "תואר",
+      "duration": "{years} שנות לימוד",
+      "location": "קמפוס {location}",
+      "tuition": "שכ\"ל: ₪{amount} לשנה",
+      "noTuition": "שכר לימוד לא זמין",
+      "viewOfficial": "לאתר הרשמי",
+      "saveProgram": "שמור תוכנית",
+      "savedProgram": "נשמר ✓",
+      "stalenessWarning": "נתונים לא עדכניים — אנא בדוק באתר הרשמי"
+    },
+    "eligibility": {
+      "title": "הזכאות שלך לתוכנית זו",
+      "noProfile": "הזן את ציוני הבגרות והפסיכומטרי כדי לראות את הזכאות שלך לתוכנית זו",
+      "goToIntake": "חשב זכאות",
+      "yourSekem": "הסקם שלך",
+      "threshold": "סף קבלה",
+      "margin": "פער",
+      "formula": "נוסחת הסקם ({year})",
+      "bagrutWeight": "משקל בגרות",
+      "psychoWeight": "משקל פסיכומטרי",
+      "noFormula": "נתוני הסקם יהיו זמינים בקרוב"
+    },
+    "syllabus": {
+      "title": "תוכן הלימודים",
+      "comingSoon": "סיכום תוכן הלימודים יהיה זמין בקרוב",
+      "year": "שנה {n}",
+      "coreCourses": "קורסי ליבה",
+      "electiveTracks": "מסלולי התמחות"
+    },
+    "career": {
+      "title": "נתוני תעסוקה",
+      "jobTitles": "תפקידים נפוצים",
+      "salary": "טווח שכר חודשי",
+      "salaryRange": "₪{min}–₪{max}",
+      "salaryMinOnly": "מ-₪{min}",
+      "noSalary": "נתוני שכר לא זמינים",
+      "demandTrend": "מגמת ביקוש",
+      "trendGrowing": "ביקוש גובר",
+      "trendStable": "ביקוש יציב",
+      "trendDeclining": "ביקוש יורד",
+      "dataYear": "נתוני {year}",
+      "noData": "נתוני תעסוקה יהיו זמינים בקרוב"
+    },
+    "institution": {
+      "title": "פרטי המוסד",
+      "website": "אתר המוסד"
+    },
+    "breadcrumb": {
+      "results": "תוצאות"
+    }
+  },
+  "roadmap": {
+    "sectionA": {
+      "title": "סטטוס דרישות קבלה",
+      "noRequirements": "לא הוגדרו דרישות בגרות ספציפיות לתוכנית זו",
+      "noProfile": "הזן את ציוני הבגרות שלך כדי לבדוק את הדרישות",
+      "goToIntake": "הזן ציונים",
+      "met": "עומד בדרישה",
+      "improvable": "ניתן לשיפור",
+      "missing": "חסר",
+      "mandatory": "חובה",
+      "optional": "רשות",
+      "requiredLabel": "נדרש",
+      "yoursLabel": "שלך",
+      "gradeImprove": "שיפור של {points} נקודות יסגור את הפער",
+      "unitsImprove": "הגדלה ל-{units} יח\"ל תסגור את הפער"
+    },
+    "sectionB": {
+      "title": "הצעדים הבאים שלך",
+      "noSteps": "אין צעדים ממתינים — אתה מוכן להגשה!",
+      "noProfile": "הזן ציוני בגרות ופסיכומטרי כדי לקבל תכנית פעולה אישית",
+      "priorities": {
+        "urgent": "דחוף",
+        "medium": "בינוני",
+        "parallel": "מקביל"
+      },
+      "done": "בוצע",
+      "syncHint": "מסמן שמור — יסונכרן לחשבון שלך בהתחברות"
+    },
+    "items": {
+      "improvePsycho": {
+        "title": "שפר ציון פסיכומטרי",
+        "description": "שיפור של {points} נקודות בפסיכומטרי יסגור את הפער. מועדי הבחינה: מרץ, יולי ואוקטובר.",
+        "deadline": "מועד הגשה הקרוב: מרץ"
+      },
+      "earlyAdmission": {
+        "title": "בדוק הגשה מוקדמת",
+        "description": "הגשה מוקדמת עשויה להגדיל את סיכויי הקבלה. לרוב מחייבת ניקוד מינימלי ומכתב מוטיבציה.",
+        "deadline": "תאריכי הגשה: פברואר–מרץ"
+      },
+      "parallelProgram": {
+        "title": "תוכנית מקבילה: {name}",
+        "description": "{institution} — הסקם שלך כבר עומד בדרישות (סף: {threshold}).",
+        "deadline": "הגשה אפשרית כבר עכשיו"
+      },
+      "prepareDocuments": {
+        "title": "הכן מסמכים לבקשת הרשמה",
+        "description": "גיליון ציוני בגרות מקורי, תעודת זהות, אישור שחרור מצבאי.",
+        "deadline": "מומלץ להכין מראש"
+      }
+    }
+  },
+  "wizard": {
+    "panelTitle": "יועץ AI",
+    "close": "סגור",
+    "back": "חזור",
+    "stepOf": "שלב {current} מתוך {total}",
+    "thinking": "חושב...",
+    "root": {
+      "message": "היי! על מה הכי חשוב לך שנדבר?"
+    },
+    "cta": {
+      "roadmap": "ראה את מסלול הקבלה",
+      "syllabus": "עבור לתוכן הלימודים",
+      "career": "עבור לנתוני תעסוקה",
+      "details": "עבור לפרטי התוכנית"
+    },
+    "finalPromptSuffix": "ספק תשובה מקיפה ומועילה (4–5 משפטים) הכוללת המלצה ברורה.",
+    "stepPromptSuffix": "ספק תשובה קצרה וממוקדת (2–3 משפטים)."
+  },
+  "compare": {
+    "title": "השוואת תוכניות",
+    "backToResults": "חזרה לתוצאות",
+    "empty": {
+      "title": "לא נבחרו תוכניות להשוואה",
+      "hint": "חזור לתוצאות ולחץ \"השווה\" על עד 3 תוכניות",
+      "cta": "לתוצאות"
+    },
+    "removeProgram": "הסר תוכנית",
+    "viewProgram": "לפרטים",
+    "addProgram": "הוסף תוכנית",
+    "groups": {
+      "admission": "קבלה",
+      "program": "תוכנית הלימודים",
+      "career": "תעסוקה",
+      "curriculum": "תוכן לימודים"
+    },
+    "rows": {
+      "eligibility": "סטטוס זכאות",
+      "yourSekem": "הסקם שלך",
+      "threshold": "סף קבלה",
+      "margin": "פער",
+      "field": "תחום",
+      "degree": "תואר",
+      "duration": "משך",
+      "location": "מיקום",
+      "tuition": "שכר לימוד שנתי",
+      "salary": "שכר חודשי",
+      "demand": "ביקוש בשוק",
+      "jobTitles": "תפקידים נפוצים",
+      "pitch": "תיאור קצר"
+    },
+    "values": {
+      "noSekem": "—",
+      "noSalary": "לא זמין",
+      "noTuition": "לא זמין",
+      "noPitch": "—",
+      "noJobTitles": "—",
+      "duration": "{years} שנים",
+      "tuition": "₪{amount}",
+      "salaryRange": "₪{min}–₪{max}",
+      "salaryMinOnly": "מ-₪{min}",
+      "margin": "+{margin}",
+      "marginNeg": "{margin}",
+      "threshold": "{value} ({year})"
+    },
+    "demand": {
+      "growing": "גובר",
+      "stable": "יציב",
+      "declining": "יורד"
+    },
+    "eligibilityStatus": {
+      "eligible": "זכאי",
+      "borderline": "גבולי",
+      "below": "מתחת לסף",
+      "noData": "—"
+    }
+  },
+  "advisor": {
+    "buttonLabel": "שאל את היועץ",
+    "panelTitle": "יועץ AI",
+    "close": "סגור",
+    "placeholder": "שאל שאלה על תוכניות, זכאות, קריירה...",
+    "send": "שלח",
+    "thinking": "חושב...",
+    "toolUse": "מחפש פרטי תוכנית...",
+    "errorMessage": "אירעה שגיאה. אנא נסה שוב.",
+    "greeting": "שלום! אני היועץ החכם של מה תלמד?. אני כאן לעזור לך לבחור את התואר הנכון. שאל אותי כל שאלה על תוכניות הלימוד, סיכויי הקבלה שלך, או הקריירה שמחכה לך בסוף הלימודים.",
+    "greetingWithProgram": "שלום! אני היועץ החכם של מה תלמד?. אני רואה שאתה מסתכל על תוכנית {program}. שאל אותי כל שאלה על התוכנית הזו, תוכניות דומות, או כל נושא אחר שמעניין אותך.",
+    "disclaimer": "היועץ מסתמך על נתוני המסד. בדוק תמיד באתר הרשמי."
+  }
+}

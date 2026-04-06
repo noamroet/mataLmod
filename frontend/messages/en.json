@@ -1,0 +1,421 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again",
+    "back": "Back",
+    "next": "Continue",
+    "submit": "Calculate eligibility",
+    "cancel": "Cancel",
+    "close": "Close",
+    "required": "Required",
+    "optional": "Optional",
+    "year": "year",
+    "years": "years"
+  },
+  "nav": {
+    "home": "Home",
+    "intake": "Check eligibility",
+    "results": "Results",
+    "toggleLanguage": "עברית"
+  },
+  "intake": {
+    "title": "Discover which degrees await you",
+    "subtitle": "Answer a few quick questions and we'll find the programs you're eligible for",
+    "stepOf": "Step {current} of {total}",
+    "steps": {
+      "1": "Bagrut Grades",
+      "2": "Psychometric",
+      "3": "Preferences"
+    },
+    "step1": {
+      "title": "Your Bagrut Grades",
+      "description": "Enter your bagrut (matriculation) exam grades. You can add multiple subjects.",
+      "addSubject": "Add subject",
+      "removeSubject": "Remove subject",
+      "subjectLabel": "Subject",
+      "unitsLabel": "Units",
+      "gradeLabel": "Grade",
+      "gradePlaceholder": "0–100",
+      "unitOption3": "3 units",
+      "unitOption4": "4 units",
+      "unitOption5": "5 units",
+      "selectUnits": "Select units",
+      "weightedAverage": "Weighted bagrut average",
+      "weightedAverageTooltip": "The weighted average is calculated by study units. 5-unit subjects get a ×1.25 bonus. This is how every Israeli university calculates it.",
+      "estimatedCheckbox": "I don't remember the exact grades",
+      "estimatedLabel": "Estimated bagrut average",
+      "estimatedPlaceholder": "e.g. 90",
+      "rowCount": "Subject {n}",
+      "validation": {
+        "gradeRange": "Grade must be between 0 and 100",
+        "gradeRequired": "Grade is required",
+        "unitsRequired": "Select study units",
+        "subjectRequired": "Select a subject",
+        "atLeastOne": "Add at least one bagrut subject",
+        "duplicateSubject": "This subject is already added. Please choose a different one.",
+        "estimatedRange": "Average must be between 0 and 100"
+      }
+    },
+    "step2": {
+      "title": "Psychometric Score",
+      "description": "Your psychometric score is used together with your bagrut average to calculate your Sekem.",
+      "scoreLabel": "Psychometric score",
+      "scorePlaceholder": "200–800",
+      "haventTaken": "I haven't taken the psychometric exam yet",
+      "haventTakenNote": "We can give you a general estimate based on bagrut grades only. Final Sekem scores require a psychometric result.",
+      "tooltipButton": "What is the psychometric exam?",
+      "tooltipContent": "The Psychometric Entrance Test (PET) for Israeli higher education institutions covers three sections: quantitative reasoning, verbal reasoning, and English. Scores range from 200 to 800. Administered by NITE.",
+      "niteLink": "Register for the psychometric — NITE website",
+      "validation": {
+        "range": "Score must be between 200 and 800",
+        "required": "Enter a psychometric score or check that you haven't taken it yet"
+      }
+    },
+    "step3": {
+      "title": "Your Preferences",
+      "description": "Last step! Filter results by your preferences. All fields are optional.",
+      "fieldsTitle": "Fields of interest",
+      "fieldsDescription": "Select one or more fields that interest you",
+      "locationTitle": "Location",
+      "locationDescription": "Which region do you prefer to study in?",
+      "institutionTypeTitle": "Institution type",
+      "studyFormatTitle": "Study format",
+      "allFieldsSelected": "All fields",
+      "selectedCount": "{count} fields selected",
+      "locations": {
+        "all": "All of Israel",
+        "north": "North",
+        "center": "Center",
+        "south": "South",
+        "jerusalem": "Jerusalem"
+      },
+      "institutionTypes": {
+        "universities": "Universities only",
+        "all": "Including colleges"
+      },
+      "studyFormats": {
+        "full_time": "Full time",
+        "part_time": "Part time",
+        "any": "No preference"
+      }
+    },
+    "subjects": {
+      "math": "Mathematics",
+      "english": "English",
+      "hebrew_expression": "Hebrew Expression",
+      "bible": "Bible",
+      "history": "History",
+      "civics": "Civics",
+      "physics": "Physics",
+      "chemistry": "Chemistry",
+      "biology": "Biology",
+      "computer_science": "Computer Science",
+      "literature": "Literature",
+      "art": "Art",
+      "music": "Music",
+      "economics": "Economics",
+      "accounting": "Accounting",
+      "other": "Other",
+      "searchPlaceholder": "Search subject...",
+      "noResults": "No results found"
+    },
+    "fields": {
+      "computer_science": "Computer Science & Software Engineering",
+      "electrical_engineering": "Electrical & Electronics Engineering",
+      "mechanical_engineering": "Mechanical & Industrial Engineering",
+      "civil_engineering": "Civil & Environmental Engineering",
+      "biomedical": "Biomedical Engineering & Life Sciences",
+      "mathematics": "Mathematics & Statistics",
+      "physics_chemistry": "Physics & Chemistry",
+      "medicine": "Medicine & Health",
+      "law": "Law",
+      "business": "Business Administration & Economics",
+      "psychology": "Psychology & Social Sciences",
+      "education": "Education & Teaching",
+      "humanities": "Humanities",
+      "arts_design": "Art, Design & Architecture",
+      "communication": "Communication & Media",
+      "agriculture": "Agriculture & Food Sciences",
+      "other": "Other / Interdisciplinary"
+    },
+    "submit": {
+      "calculating": "Calculating eligibility...",
+      "error": "An error occurred while calculating eligibility. Please check your details and try again.",
+      "networkError": "Network error. Please check your internet connection and try again."
+    }
+  },
+  "results": {
+    "title": "Your eligibility results",
+    "subtitle": "{total} programs found",
+    "subtitleFiltered": "Showing {shown} of {total} programs",
+    "noResults": "No matching programs found",
+    "noResultsHint": "Try broadening your search filters",
+    "noResultsClear": "Clear filters",
+    "loading": "Loading results...",
+    "redirecting": "Redirecting to intake form...",
+    "recalculate": "Recalculate",
+    "filters": {
+      "title": "Filter results",
+      "openButton": "Filters",
+      "close": "Close",
+      "clearAll": "Clear filters",
+      "institution": "Institution",
+      "field": "Field of study",
+      "eligibility": "Eligibility status",
+      "location": "Location",
+      "eligible": "Eligible",
+      "borderline": "Borderline",
+      "below": "Below threshold",
+      "activeCount": "{count} active filters",
+      "lastUpdated": "Updated: {date}"
+    },
+    "sort": {
+      "label": "Sort",
+      "ariaLabel": "Sort results",
+      "margin": "By eligibility",
+      "alpha": "By program name",
+      "institution": "By institution"
+    },
+    "card": {
+      "sekem": "Sekem",
+      "threshold": "Threshold",
+      "margin": "Margin",
+      "positiveMargin": "+{margin} above threshold",
+      "negativeMargin": "{margin} below threshold",
+      "duration": "{years} years",
+      "years": "year | years",
+      "compare": "Compare",
+      "compareAdded": "In comparison ✓",
+      "viewDetails": "View program",
+      "location": "Location",
+      "institution": "Institution"
+    },
+    "comparison": {
+      "title": "Compare programs",
+      "compareButton": "Compare ({count}/3)",
+      "remove": "Remove",
+      "clearAll": "Clear all",
+      "maxReached": "You can compare up to 3 programs at once",
+      "selected": "{count} selected for comparison"
+    },
+    "profileSummary": {
+      "title": "Your profile",
+      "average": "Bagrut average",
+      "psychometric": "Psychometric",
+      "notTaken": "Not taken",
+      "subjects": "subjects"
+    },
+    "institutionGroup": {
+      "dataAsOf": "Data from {date}"
+    }
+  },
+  "program": {
+    "eligibility": {
+      "eligible": "Eligible",
+      "borderline": "Borderline",
+      "belowThreshold": "Below threshold"
+    },
+    "sekem": "Sekem score",
+    "threshold": "Admission threshold",
+    "margin": "Margin"
+  },
+  "programDetail": {
+    "notFound": "Program not found",
+    "tabs": {
+      "details": "Program details",
+      "roadmap": "Acceptance roadmap"
+    },
+    "header": {
+      "degreeType": "Degree",
+      "duration": "{years}-year program",
+      "location": "{location} campus",
+      "tuition": "Tuition: ₪{amount}/year",
+      "noTuition": "Tuition info unavailable",
+      "viewOfficial": "Official website",
+      "saveProgram": "Save program",
+      "savedProgram": "Saved ✓",
+      "stalenessWarning": "Data may be outdated — please check the official website"
+    },
+    "eligibility": {
+      "title": "Your eligibility for this program",
+      "noProfile": "Enter your bagrut grades and psychometric score to see your eligibility for this program",
+      "goToIntake": "Calculate eligibility",
+      "yourSekem": "Your Sekem",
+      "threshold": "Admission threshold",
+      "margin": "Margin",
+      "formula": "Sekem formula ({year})",
+      "bagrutWeight": "Bagrut weight",
+      "psychoWeight": "Psychometric weight",
+      "noFormula": "Sekem data will be available soon"
+    },
+    "syllabus": {
+      "title": "Curriculum",
+      "comingSoon": "Curriculum summary coming soon",
+      "year": "Year {n}",
+      "coreCourses": "Core courses",
+      "electiveTracks": "Elective tracks"
+    },
+    "career": {
+      "title": "Career data",
+      "jobTitles": "Common job titles",
+      "salary": "Monthly salary range",
+      "salaryRange": "₪{min}–₪{max}",
+      "salaryMinOnly": "From ₪{min}",
+      "noSalary": "Salary data unavailable",
+      "demandTrend": "Demand trend",
+      "trendGrowing": "Growing demand",
+      "trendStable": "Stable demand",
+      "trendDeclining": "Declining demand",
+      "dataYear": "{year} data",
+      "noData": "Career data will be available soon"
+    },
+    "institution": {
+      "title": "Institution details",
+      "website": "Institution website"
+    },
+    "breadcrumb": {
+      "results": "Results"
+    }
+  },
+  "roadmap": {
+    "sectionA": {
+      "title": "Admission requirements status",
+      "noRequirements": "No specific bagrut requirements defined for this program",
+      "noProfile": "Enter your bagrut grades to check the requirements",
+      "goToIntake": "Enter grades",
+      "met": "Requirement met",
+      "improvable": "Improvable",
+      "missing": "Missing",
+      "mandatory": "Required",
+      "optional": "Optional",
+      "requiredLabel": "Required",
+      "yoursLabel": "Yours",
+      "gradeImprove": "Improving by {points} points will close the gap",
+      "unitsImprove": "Increasing to {units} units will close the gap"
+    },
+    "sectionB": {
+      "title": "Your next steps",
+      "noSteps": "No pending steps — you're ready to apply!",
+      "noProfile": "Enter bagrut and psychometric scores to get a personal action plan",
+      "priorities": {
+        "urgent": "Urgent",
+        "medium": "Medium",
+        "parallel": "Parallel"
+      },
+      "done": "Done",
+      "syncHint": "Check state saved — will sync to your account on login"
+    },
+    "items": {
+      "improvePsycho": {
+        "title": "Improve psychometric score",
+        "description": "Improving {points} points on the psychometric exam will close the gap. Exam dates: March, July, and October.",
+        "deadline": "Next exam: March"
+      },
+      "earlyAdmission": {
+        "title": "Check early admission",
+        "description": "Early admission may increase your acceptance chances. Usually requires a minimum score and a motivation letter.",
+        "deadline": "Submission dates: February–March"
+      },
+      "parallelProgram": {
+        "title": "Parallel program: {name}",
+        "description": "{institution} — your Sekem already meets the threshold ({threshold}).",
+        "deadline": "Application possible now"
+      },
+      "prepareDocuments": {
+        "title": "Prepare application documents",
+        "description": "Original bagrut transcript, ID card, military discharge certificate.",
+        "deadline": "Recommended to prepare in advance"
+      }
+    }
+  },
+  "wizard": {
+    "panelTitle": "AI Advisor",
+    "close": "Close",
+    "back": "Back",
+    "stepOf": "Step {current} of {total}",
+    "thinking": "Thinking...",
+    "root": {
+      "message": "Hi! What's most important for you to talk about?"
+    },
+    "cta": {
+      "roadmap": "View acceptance roadmap",
+      "syllabus": "Go to curriculum",
+      "career": "Go to career data",
+      "details": "Go to program details"
+    },
+    "finalPromptSuffix": "Provide a comprehensive and helpful response (4–5 sentences) with a clear recommendation.",
+    "stepPromptSuffix": "Provide a brief and focused response (2–3 sentences)."
+  },
+  "compare": {
+    "title": "Compare Programs",
+    "backToResults": "Back to results",
+    "empty": {
+      "title": "No programs selected for comparison",
+      "hint": "Go back to results and click \"Compare\" on up to 3 programs",
+      "cta": "Go to results"
+    },
+    "removeProgram": "Remove program",
+    "viewProgram": "View details",
+    "addProgram": "Add program",
+    "groups": {
+      "admission": "Admission",
+      "program": "Program",
+      "career": "Career",
+      "curriculum": "Curriculum"
+    },
+    "rows": {
+      "eligibility": "Eligibility status",
+      "yourSekem": "Your Sekem",
+      "threshold": "Admission threshold",
+      "margin": "Margin",
+      "field": "Field",
+      "degree": "Degree",
+      "duration": "Duration",
+      "location": "Location",
+      "tuition": "Annual tuition",
+      "salary": "Monthly salary",
+      "demand": "Market demand",
+      "jobTitles": "Common job titles",
+      "pitch": "Quick summary"
+    },
+    "values": {
+      "noSekem": "—",
+      "noSalary": "N/A",
+      "noTuition": "N/A",
+      "noPitch": "—",
+      "noJobTitles": "—",
+      "duration": "{years} years",
+      "tuition": "₪{amount}",
+      "salaryRange": "₪{min}–₪{max}",
+      "salaryMinOnly": "From ₪{min}",
+      "margin": "+{margin}",
+      "marginNeg": "{margin}",
+      "threshold": "{value} ({year})"
+    },
+    "demand": {
+      "growing": "Growing",
+      "stable": "Stable",
+      "declining": "Declining"
+    },
+    "eligibilityStatus": {
+      "eligible": "Eligible",
+      "borderline": "Borderline",
+      "below": "Below threshold",
+      "noData": "—"
+    }
+  },
+  "advisor": {
+    "buttonLabel": "Ask the advisor",
+    "panelTitle": "AI Advisor",
+    "close": "Close",
+    "placeholder": "Ask about programs, eligibility, careers...",
+    "send": "Send",
+    "thinking": "Thinking...",
+    "toolUse": "Looking up program details...",
+    "errorMessage": "An error occurred. Please try again.",
+    "greeting": "Hi! I'm the MaTaLmod AI advisor. I'm here to help you choose the right degree. Ask me anything about programs, your admission chances, or careers.",
+    "greetingWithProgram": "Hi! I'm the MaTaLmod AI advisor. I see you're looking at {program}. Ask me anything about this program, similar ones, or any other topic you're curious about.",
+    "disclaimer": "The advisor relies on database data. Always verify at the official website."
+  }
+}

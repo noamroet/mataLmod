@@ -1,0 +1,46 @@
+# Railway deployment configuration for MaTaLmod backend services.
+#
+# This project deploys three Railway services from this monorepo:
+#   1. api       — FastAPI backend
+#   2. celery    — Celery worker (scraper tasks)
+#   3. celery-beat — Celery Beat scheduler
+#
+# Each service is configured via Railway dashboard to point to:
+#   - Root directory: backend/
+#   - The start command defined below per service
+#
+# Required Railway env vars (set in dashboard, shared across services):
+#   DATABASE_URL, REDIS_URL, ANTHROPIC_API_KEY, SECRET_KEY,
+#   ADMIN_API_KEY, SENTRY_DSN, ENVIRONMENT=production, CORS_ORIGINS
+
+[build]
+builder = "nixpacks"
+
+[deploy]
+# Health check — Railway marks the service healthy once this returns 200
+healthcheckPath    = "/health"
+healthcheckTimeout = 30
+restartPolicyType  = "on_failure"
+restartPolicyMaxRetries = 3
+
+# ── API service start command ─────────────────────────────────────────────────
+# Override per-service in Railway dashboard if running celery in a separate service.
+# For the API service, use:
+#   uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 2
+
+# ── Nixpacks build config ────────────────────────────────────────────────────
+[build.nixpacksPlan.phases.setup]
+nixPkgs = ["python312", "libpq"]
+
+[build.nixpacksPlan.phases.install]
+cmds = ["pip install -e ."]
+
+[build.nixpacksPlan.phases.build]
+cmds = ["alembic upgrade head"]
+
+[deploy.startCommand]
+# This is the API service default. Override in dashboard for worker services.
+# API:          uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 2
+# Worker:       celery -A scraper.celery_app worker -Q scrapers -c 2 -l info
+# Beat:         celery -A scraper.celery_app beat -l info
+value = "uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 2"
