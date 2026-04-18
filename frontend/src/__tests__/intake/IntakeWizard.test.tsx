@@ -6,6 +6,7 @@ import {
   resetIntakeStore,
 } from '../utils/testUtils';
 import { IntakeWizard } from '@/components/intake/IntakeWizard';
+import { useIntakeStore } from '@/store/intakeStore';
 import * as api from '@/lib/api';
 
 jest.mock('@/lib/api');
@@ -29,18 +30,17 @@ describe('IntakeWizard — step navigation', () => {
     render(<IntakeWizard />);
     const user = userEvent.setup();
 
-    // Fill in a valid subject row
-    const unitSelect = screen.getByRole('combobox', { hidden: true });
-    // Set grade via the number input
-    const gradeInput = screen.getByPlaceholderText('intake.step1.gradePlaceholder');
-    await user.type(gradeInput, '90');
+    // Set subject directly via store (SubjectCombobox is a complex custom widget)
+    const { bagrutGrades, updateGrade } = useIntakeStore.getState();
+    updateGrade(bagrutGrades[0].id, 'subject', 'math');
 
-    // Units select
-    const unitsSelect = screen.getByRole('listbox', { hidden: true }) ??
-      document.querySelector('select');
-    // Use the select directly
+    // Set units
     const selects = document.querySelectorAll('select');
     if (selects[0]) await user.selectOptions(selects[0] as HTMLSelectElement, '4');
+
+    // Set grade
+    const gradeInput = screen.getByPlaceholderText('intake.step1.gradePlaceholder');
+    await user.type(gradeInput, '90');
 
     const nextBtn = screen.getByRole('button', { name: 'common.next' });
     await user.click(nextBtn);
@@ -51,18 +51,13 @@ describe('IntakeWizard — step navigation', () => {
   });
 
   it('goes back from step 2 to step 1', async () => {
+    // Force store to step 2 before rendering
+    useIntakeStore.getState().setStep(2);
+
     render(<IntakeWizard />);
     const user = userEvent.setup();
 
-    // Force store to step 2
-    const { setStep } = await import('@/store/intakeStore').then(
-      (m) => m.useIntakeStore.getState()
-    );
-    setStep(2);
-
-    // Re-render with updated state
-    render(<IntakeWizard />);
-    const backBtn = screen.getAllByRole('button', { name: 'common.back' })[0];
+    const backBtn = screen.getByRole('button', { name: 'common.back' });
     await user.click(backBtn);
 
     await waitFor(() => {

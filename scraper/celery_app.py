@@ -123,7 +123,10 @@ def on_task_failure(task_id, exception, traceback, einfo, **_):  # type: ignore[
     )
 
 # Autodiscover tasks in the tasks/ package
-app.conf.imports = ["scraper.tasks.scrape_dispatch"]
+app.conf.imports = [
+    "scraper.tasks.scrape_dispatch",
+    "scraper.tasks.summarize",
+]
 
 # ── Nightly Beat schedule ─────────────────────────────────────────────────────
 # Israel time is UTC+3 (IDT summer) / UTC+2 (IST winter).
@@ -134,6 +137,12 @@ app.conf.beat_schedule = {
         "task": "scraper.tasks.scrape_dispatch.scrape_institution",
         "schedule": crontab(hour=23, minute=0),
         "args": ["TAU"],
+        "options": {"queue": "scrapers"},
+    },
+    # Run after scrapers so fresh HTML is available
+    "summarise-syllabi-nightly": {
+        "task": "scraper.tasks.summarize.summarise_syllabi",
+        "schedule": crontab(hour=1, minute=0),
         "options": {"queue": "scrapers"},
     },
 }

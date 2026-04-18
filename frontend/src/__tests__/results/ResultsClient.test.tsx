@@ -62,7 +62,7 @@ describe('ResultsClient — rendering', () => {
   it('shows subtitle with total count', () => {
     seedResults([makeResultItem(), makeResultItem({ rank: 2 })]);
     render(<ResultsClient />);
-    expect(screen.getByText(/results.subtitle/)).toBeInTheDocument();
+    expect(screen.getByText(/נמצאו 2 תוכניות/)).toBeInTheDocument();
   });
 });
 
@@ -143,7 +143,8 @@ describe('ResultsClient — filtering', () => {
     );
 
     // Click "below" filter — this will filter out the eligible result
-    const belowCheckbox = screen.getByRole('checkbox', { name: /results.filters.below/i });
+    const dialog = screen.getByRole('dialog');
+    const belowCheckbox = within(dialog).getByRole('checkbox', { name: /results.filters.below/i });
     await user.click(belowCheckbox);
 
     await waitFor(() => {
@@ -159,7 +160,7 @@ describe('ResultsClient — filtering', () => {
     await user.click(
       screen.getByRole('button', { name: /results.filters.openButton/i })
     );
-    await user.click(screen.getByRole('checkbox', { name: /results.filters.below/i }));
+    await user.click(within(screen.getByRole('dialog')).getByRole('checkbox', { name: /results.filters.below/i }));
 
     await waitFor(() => {
       expect(screen.getByText('results.noResultsClear')).toBeInTheDocument();
@@ -175,7 +176,7 @@ describe('ResultsClient — filtering', () => {
     await user.click(
       screen.getByRole('button', { name: /results.filters.openButton/i })
     );
-    await user.click(screen.getByRole('checkbox', { name: /results.filters.below/i }));
+    await user.click(within(screen.getByRole('dialog')).getByRole('checkbox', { name: /results.filters.below/i }));
 
     await waitFor(() => expect(screen.getByText('results.noResults')).toBeInTheDocument());
 

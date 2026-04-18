@@ -73,7 +73,7 @@ describe('ProgramCard — rendering', () => {
   it('shows degree type and duration', () => {
     render(<ProgramCard item={makeResultItem()} />);
     expect(screen.getByText('BSc')).toBeInTheDocument();
-    expect(screen.getByText(/results.card.duration/)).toBeInTheDocument();
+    expect(screen.getByText(/3 שנים/)).toBeInTheDocument();
   });
 
   it('shows location', () => {
@@ -152,7 +152,7 @@ describe('ProgramCard — compare button', () => {
 describe('ProgramCard — margin display', () => {
   it('shows positive margin with + prefix', () => {
     render(<ProgramCard item={makeResultItem({ sekem: 760, threshold: 730, margin: 30 })} />);
-    expect(screen.getByText(/results.card.positiveMargin/)).toBeInTheDocument();
+    expect(screen.getByText(/\+30 מעל הסף/)).toBeInTheDocument();
   });
 
   it('shows negative margin for ineligible program', () => {
@@ -167,6 +167,6 @@ describe('ProgramCard — margin display', () => {
         })}
       />
     );
-    expect(screen.getByText(/results.card.negativeMargin/)).toBeInTheDocument();
+    expect(screen.getByText(/80 מתחת לסף/)).toBeInTheDocument();
   });
 });

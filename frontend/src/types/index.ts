@@ -132,19 +132,19 @@ export interface ProgramDetail extends ProgramListItem {
 
 // ── Advisor ────────────────────────────────────────────────────────────────────
 
-export interface AdvisorMessage {
-  role: 'user' | 'assistant';
-  content: string;
+export interface WizardStep {
+  question: string;
+  answer: string;
 }
 
 export interface AdvisorChatRequest {
-  message: string;
+  wizard_path: WizardStep[];
   user_profile: {
     bagrut_grades: BagrutGradeApi[];
     psychometric: number | null;
   };
   current_program_id: string | null;
-  conversation_history: AdvisorMessage[];
+  target_node_id: string;
 }
 
 // ── Store-side intake types (richer than API types) ───────────────────────────

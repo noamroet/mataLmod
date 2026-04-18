@@ -335,6 +335,7 @@
     "back": "Back",
     "stepOf": "Step {current} of {total}",
     "thinking": "Thinking...",
+    "searching": "Searching program details...",
     "root": {
       "message": "Hi! What's most important for you to talk about?"
     },

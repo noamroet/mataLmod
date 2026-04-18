@@ -75,7 +75,7 @@ describe('Step3Preferences — field chips', () => {
       expect(useIntakeStore.getState().fieldsOfInterest).toHaveLength(2);
     });
     expect(
-      screen.getByText(/intake.step3.selectedCount/i)
+      screen.getByText(/2 תחומים נבחרו/)
     ).toBeInTheDocument();
   });
 

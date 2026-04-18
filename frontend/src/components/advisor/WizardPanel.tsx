@@ -11,11 +11,10 @@ import { useAdvisorStore }  from '@/store/advisorStore';
 import { useIntakeStore }   from '@/store/intakeStore';
 import {
   WIZARD_FLOWS,
-  buildPathContext,
   type CtaSection,
   type WizardChoice,
 } from '@/lib/advisorFlows';
-import type { AdvisorChatRequest } from '@/types';
+import type { AdvisorChatRequest, WizardStep } from '@/types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -32,6 +31,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
 async function streamAdvisorMessage(
   request: AdvisorChatRequest,
   onChunk: (text: string) => void,
+  onToolUse?: (active: boolean) => void,
 ): Promise<void> {
   const res = await fetch(`${API_BASE}/api/v1/advisor/chat`, {
     method:  'POST',
@@ -52,7 +52,9 @@ async function streamAdvisorMessage(
     for (const line of text.split('\n')) {
       if (!line.startsWith('data: ')) continue;
       const data = line.slice(6).trim();
-      if (data === '[DONE]' || data === '[TOOL_USE]' || data === '[TOOL_DONE]') continue;
+      if (data === '[DONE]') { onToolUse?.(false); return; }
+      if (data === '[TOOL_USE]') { onToolUse?.(true); continue; }
+      if (data === '[TOOL_DONE]') { onToolUse?.(false); continue; }
       if (data) onChunk(data);
     }
   }
@@ -196,6 +198,7 @@ export function WizardPanel({ onNavigate }: WizardPanelProps) {
   const [history,       setHistory]       = useState<HistoryEntry[]>([]);
   const [liveResponse,  setLiveResponse]  = useState<string>('');
   const [isStreaming,   setIsStreaming]    = useState<boolean>(false);
+  const [isSearching,   setIsSearching]   = useState<boolean>(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -206,6 +209,7 @@ export function WizardPanel({ onNavigate }: WizardPanelProps) {
       setHistory([]);
       setLiveResponse('');
       setIsStreaming(false);
+      setIsSearching(false);
     }
   }, [isOpen]);
 
@@ -230,27 +234,25 @@ export function WizardPanel({ onNavigate }: WizardPanelProps) {
       const nextNode = WIZARD_FLOWS[choice.nextId];
       if (!nextNode) return;
 
-      const pathLabels = [
-        ...history.map((h) => h.choiceLabel),
-        choice.label,
-      ];
-      const isFinal = nextNode.isFinal ?? false;
-
-      // For root → branch: call API to generate step-2 advisor response
       if (nextNode.step === 1) return; // shouldn't happen
 
-      // Build the context message for the API
-      const message = buildPathContext(
-        programName,
-        institutionName,
-        pathLabels,
-        isFinal,
-        t('finalPromptSuffix'),
-        t('stepPromptSuffix'),
-      );
+      // Build structured wizard_path from history + current choice
+      const rootMessage = t('root.message');
+      const wizardPath: WizardStep[] = [
+        ...history.map((entry, i) => ({
+          question: i === 0 ? rootMessage : history[i - 1].advisorResponse,
+          answer: entry.choiceLabel,
+        })),
+        {
+          question: history.length === 0
+            ? rootMessage
+            : history[history.length - 1].advisorResponse,
+          answer: choice.label,
+        },
+      ];
 
       const request: AdvisorChatRequest = {
-        message,
+        wizard_path: wizardPath,
         user_profile: {
           bagrut_grades: bagrutGrades
             .filter((g) => g.subject && g.units && g.grade !== '')
@@ -262,25 +264,31 @@ export function WizardPanel({ onNavigate }: WizardPanelProps) {
           psychometric: psychoScore !== '' ? (psychoScore as number) : null,
         },
         current_program_id: currentProgramId ?? null,
-        conversation_history: [],
+        target_node_id: choice.nextId,
       };
 
       // Optimistically navigate & start streaming
       setCurrentNodeId(choice.nextId);
       setLiveResponse('');
       setIsStreaming(true);
+      setIsSearching(false);
 
       let fullResponse = '';
       try {
-        await streamAdvisorMessage(request, (chunk) => {
-          fullResponse += chunk;
-          setLiveResponse((prev) => prev + chunk);
-        });
+        await streamAdvisorMessage(
+          request,
+          (chunk) => {
+            fullResponse += chunk;
+            setLiveResponse((prev) => prev + chunk);
+          },
+          (active) => setIsSearching(active),
+        );
       } catch {
         fullResponse = '(שגיאה בטעינת התשובה — נסה שוב)';
         setLiveResponse(fullResponse);
       } finally {
         setIsStreaming(false);
+        setIsSearching(false);
       }
 
       // Commit to history
@@ -297,6 +305,7 @@ export function WizardPanel({ onNavigate }: WizardPanelProps) {
     [
       isStreaming, history, programName, institutionName,
       bagrutGrades, psychoScore, currentProgramId, t,
+      // isSearching intentionally omitted — it's set inside the callback
     ]
   );
 
@@ -375,8 +384,17 @@ export function WizardPanel({ onNavigate }: WizardPanelProps) {
             </div>
           ))}
 
+          {/* Tool-use searching indicator */}
+          {isSearching && (
+            <div className="flex justify-end">
+              <div className="max-w-[88%] rounded-2xl rounded-tl-sm bg-gray-100 px-4 py-3 text-sm italic text-gray-400">
+                {t('searching')}
+              </div>
+            </div>
+          )}
+
           {/* Live streaming response */}
-          {(isStreaming || liveResponse) && (
+          {!isSearching && (isStreaming || liveResponse) && (
             <AdvisorBubble text={liveResponse} isStreaming={isStreaming} />
           )}
 

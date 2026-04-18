@@ -255,7 +255,7 @@ describe('ProgramDetailClient — rendering', () => {
 
   it('renders institution name', () => {
     render(<ProgramDetailClient program={makeProgramDetail()} />);
-    expect(screen.getByText('אוניברסיטת תל אביב')).toBeInTheDocument();
+    expect(screen.getAllByText('אוניברסיטת תל אביב').length).toBeGreaterThan(0);
   });
 
   it('renders official site link', () => {
@@ -317,7 +317,7 @@ describe('ProgramDetailClient — advisor', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('advisor.panelTitle')).toBeInTheDocument();
+      expect(screen.getByText('wizard.panelTitle')).toBeInTheDocument();
     });
   });
 
@@ -345,7 +345,7 @@ describe('ProgramDetailClient — advisor', () => {
     );
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
 
-    await user.click(screen.getByRole('button', { name: /advisor.close/i }));
+    await user.click(screen.getByRole('button', { name: /wizard.close/i }));
 
     await waitFor(() => {
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();

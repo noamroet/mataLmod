@@ -3,14 +3,32 @@ import { render, type RenderOptions } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // ── next-intl mock ────────────────────────────────────────────────────────────
-// Returns the translation key as the value for easy assertion.
+// Without params: returns the full dotted key so tests can assert on keys.
+// With params: resolves the actual he.json value and substitutes params.
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const _heMessages = require('../../../messages/he.json') as Record<string, unknown>;
+
+function _resolveHeValue(fullKey: string): string | null {
+  const parts = fullKey.split('.');
+  let cur: unknown = _heMessages;
+  for (const p of parts) {
+    if (cur && typeof cur === 'object' && p in (cur as object)) {
+      cur = (cur as Record<string, unknown>)[p];
+    } else return null;
+  }
+  return typeof cur === 'string' ? cur : null;
+}
+
 jest.mock('next-intl', () => ({
   useTranslations: (ns?: string) => (key: string, params?: Record<string, unknown>) => {
     const full = ns ? `${ns}.${key}` : key;
     if (!params) return full;
+    // With params: use actual translation template so interpolated values appear.
+    const template = _resolveHeValue(full);
+    const base = template ?? full;
     return Object.entries(params).reduce(
       (s, [k, v]) => s.replace(`{${k}}`, String(v)),
-      full
+      base
     );
   },
   useLocale: () => 'he',

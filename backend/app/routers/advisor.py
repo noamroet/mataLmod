@@ -42,9 +42,6 @@ _RATE_MAX_REQUESTS:   int = 10
 # ip → deque of request timestamps (float, monotonic)
 _rate_store: dict[str, deque[float]] = defaultdict(deque)
 
-# Maximum conversation turns allowed per request
-_MAX_TURNS: int = 20
-
 
 def _check_rate_limit(ip: str) -> bool:
     """
@@ -104,18 +101,11 @@ async def advisor_chat(
             detail="יותר מדי בקשות. אנא המתן דקה ונסה שוב.",
         )
 
-    # ── Turn cap ──────────────────────────────────────────────────────────────
-    if len(request_body.conversation_history) > _MAX_TURNS * 2:
-        log.info("advisor.turn_cap_exceeded", ip=client_ip)
-        raise HTTPException(
-            status_code=400,
-            detail=f"שיחה ארוכה מדי. מותר עד {_MAX_TURNS} תורות בשיחה אחת.",
-        )
-
     log.info(
         "advisor.chat_start",
         ip=client_ip,
-        history_len=len(request_body.conversation_history),
+        target_node=request_body.target_node_id,
+        path_steps=len(request_body.wizard_path),
         has_program=request_body.current_program_id is not None,
     )
 

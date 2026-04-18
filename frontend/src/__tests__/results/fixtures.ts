@@ -33,7 +33,6 @@ export function makeResultItem(
   const program = makeProgram(overrides?.program);
   return {
     rank:       1,
-    program,
     sekem:      740,
     threshold:  730,
     margin:     10,

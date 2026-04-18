@@ -7,7 +7,7 @@ import {
   resetIntakeStore,
 } from '../utils/testUtils';
 import { Step1BagrutGrades } from '@/components/intake/Step1BagrutGrades';
-import { weightedBagrutAverage } from '@/store/intakeStore';
+import { weightedBagrutAverage, useIntakeStore } from '@/store/intakeStore';
 import type { BagrutGradeEntry } from '@/types';
 
 beforeEach(() => {
@@ -111,6 +111,10 @@ describe('Step1BagrutGrades — UI', () => {
     render(<Step1BagrutGrades errors={{}} />);
     const user = userEvent.setup();
 
+    // Set subject directly via store (SubjectCombobox is a complex custom widget)
+    const { bagrutGrades, updateGrade } = useIntakeStore.getState();
+    updateGrade(bagrutGrades[0].id, 'subject', 'math');
+
     // Set units
     const selects = document.querySelectorAll('select');
     await user.selectOptions(selects[0] as HTMLSelectElement, '4');
@@ -120,8 +124,8 @@ describe('Step1BagrutGrades — UI', () => {
     await user.type(gradeInput, '90');
 
     await waitFor(() => {
-      // The average display should update (aria-live region)
-      expect(screen.getByText(/90/)).toBeInTheDocument();
+      // The average display should update (aria-live region) — shows e.g. "90.0"
+      expect(screen.getByText(/90\.0/)).toBeInTheDocument();
     });
   });
 

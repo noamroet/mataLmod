@@ -34,7 +34,7 @@ from app.core.config import settings
 from app.models.institution import Institution
 from app.models.program import Program
 from app.models.sekem_formula import SekemFormula
-from app.schemas.advisor import AdvisorChatRequest, AdvisorMessage
+from app.schemas.advisor import AdvisorChatRequest
 from app.schemas.sekem import BagrutGrade, SekemFormula as SekemFormulaSchema, SubjectBonus, UserProfile
 from app.services.sekem import calculate_sekem, weighted_bagrut_average
 
@@ -103,25 +103,6 @@ _TOOLS: list[dict] = [
         },
     },
 ]
-
-# ── History truncation ────────────────────────────────────────────────────────
-
-
-def truncate_history(
-    history: list[AdvisorMessage],
-    max_chars: int = _MAX_HISTORY_CHARS,
-) -> list[AdvisorMessage]:
-    """
-    Drop the OLDEST messages until the total character count fits within max_chars.
-    Always preserves the most recent messages.
-    """
-    total = sum(len(m.content) for m in history)
-    result = list(history)
-    while total > max_chars and result:
-        removed = result.pop(0)
-        total -= len(removed.content)
-    return result
-
 
 # ── DB context builder ────────────────────────────────────────────────────────
 
@@ -252,23 +233,26 @@ async def build_context(
 # ── System prompt ─────────────────────────────────────────────────────────────
 
 
-def build_system_prompt(db_context: str) -> str:
-    return f"""אתה יועץ אקדמי מומחה של "מה תלמד?" — פלטפורמת גילוי תארים לישראלים לאחר שירות צבאי.
+def build_system_prompt(db_context: str, wizard_path_text: str = "") -> str:
+    wizard_section = f"\n\n[WIZARD_PATH]\n{wizard_path_text}" if wizard_path_text else ""
+    return f"""[ROLE]
+אתה יועץ אקדמי מומחה של "מה תלמד?" — פלטפורמת גילוי תארים לישראלים לאחר שירות צבאי.
 תפקידך לעזור לצעירים ישראלים (גיל 21–24) לבחור תואר אקדמי — לפי הנתונים שלהם, העדפותיהם, ואפשרויות הקריירה.
+היה חם, ברור, וכן.
 
-== נתוני המשתמש מהמסד ==
-{db_context}
-
-== כללים שאין לחרוג מהם ==
-1. לעולם אל תמציא נתונים. ציין רק סף כניסה ושמות קורסים שמופיעים ב-DB_CONTEXT לעיל.
+[NON-NEGOTIABLE RULES]
+1. לעולם אל תמציא נתונים. ציין רק סף כניסה ושמות קורסים שמופיעים ב-DB_CONTEXT.
 2. בכל אזכור של סף סקם — ציין את שנת הנתון: "סף [שנה]: [מספר]".
 3. לאחר כל אזכור של סף קבלה — הוסף: "בדוק תמיד באתר הרשמי".
 4. השב בעברית אלא אם המשתמש כותב באנגלית — במקרה כזה השב באנגלית.
 5. שמור על תשובות ממוקדות ופרקטיות — הזמן של המשתמש יקר.
-6. אם אינך יודע פרט ספציפי — אמור זאת במפורש ואל תנחש.
+6. אם אינך יודע פרט ספציפי — אמור זאת במפורש ואל תנחש.{wizard_section}
+
+[DB_CONTEXT]
+{db_context}
 
 כלים זמינים לך: get_program_details (מידע מלא על תוכנית), search_programs (חיפוש תוכניות).
-השתמש בהם כשהמשתמש שואל שאלות ספציפיות על תוכניות שאינן בהקשר לעיל."""
+השתמש בהם כשנדרש מידע ספציפי שאינו בהקשר לעיל."""
 
 
 # ── Tool execution ────────────────────────────────────────────────────────────
@@ -443,17 +427,24 @@ async def chat_stream(
         log.exception("advisor.context_build_failed")
         db_context = "שגיאה בטעינת נתוני ההקשר."
 
-    # 2. System prompt
-    system_prompt = build_system_prompt(db_context)
+    # 2. Format wizard path for system prompt
+    wizard_path_text = "\n\n".join(
+        f"שאלה: {step.question}\nתשובה: {step.answer}"
+        for step in request.wizard_path
+    )
 
-    # 3. Truncated history → messages list
-    truncated = truncate_history(request.conversation_history)
-    messages: list[dict] = [
-        {"role": m.role, "content": m.content} for m in truncated
-    ]
-    messages.append({"role": "user", "content": request.message})
+    # 3. System prompt with wizard context injected
+    system_prompt = build_system_prompt(db_context, wizard_path_text)
 
-    # 4. Stream (with up to _MAX_TOOL_TURNS rounds of tool use)
+    # 4. Single user message synthesised from the final wizard step
+    last = request.wizard_path[-1]
+    user_message = (
+        f"המשתמש בחר: \"{last.answer}\" בתגובה ל: \"{last.question}\".\n"
+        "ספק תשובה מפורטת ופרקטית."
+    )
+    messages: list[dict] = [{"role": "user", "content": user_message}]
+
+    # 5. Stream (with up to _MAX_TOOL_TURNS rounds of tool use)
     client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
 
     for turn in range(_MAX_TOOL_TURNS + 1):
@@ -509,7 +500,8 @@ async def chat_stream(
 
     log.info(
         "advisor.stream_complete",
-        message_preview=request.message[:60],
+        target_node=request.target_node_id,
+        path_steps=len(request.wizard_path),
         turns=turn + 1,
     )
     yield "data: [DONE]\n\n"

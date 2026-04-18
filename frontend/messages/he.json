@@ -335,6 +335,7 @@
     "back": "חזור",
     "stepOf": "שלב {current} מתוך {total}",
     "thinking": "חושב...",
+    "searching": "מחפש פרטי תואר...",
     "root": {
       "message": "היי! על מה הכי חשוב לך שנדבר?"
     },

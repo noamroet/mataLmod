@@ -202,7 +202,7 @@ function generateItems(
   allResults: EligibilityResultItem[],
   t: (key: string, params?: Record<string, unknown>) => string,
 ): RoadmapItem[] {
-  const items: RoadmapItem[] = [];
+  const items: Omit<RoadmapItem, 'index'>[] = [];
   const formula  = program.latest_sekem_formula;
   const margin   = resultItem?.margin   ?? 0;
   const eligible = resultItem?.eligible ?? false;
@@ -362,7 +362,7 @@ function SectionB({
 }) {
   const t     = useTranslations();
   const items = useMemo(
-    () => generateItems(program, resultItem, allResults, t),
+    () => generateItems(program, resultItem, allResults, t as (key: string, params?: Record<string, unknown>) => string),
     [program, resultItem, allResults, t]
   );
 

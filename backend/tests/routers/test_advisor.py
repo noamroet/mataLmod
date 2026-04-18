@@ -12,19 +12,23 @@ from __future__ import annotations
 
 import uuid
 from collections import defaultdict, deque
-from unittest.mock import AsyncMock, patch
+from unittest.mock import patch
 
 import pytest
 
 import app.routers.advisor as advisor_router
-from app.schemas.sekem import BagrutGrade
 
 _URL = "/api/v1/advisor/chat"
 
 # ── Shared request bodies ─────────────────────────────────────────────────────
 
+_VALID_WIZARD_STEP = {
+    "question": "היי! על מה הכי חשוב לך שנדבר?",
+    "answer": "איך אני מגיע לסף הקבלה?",
+}
+
 _VALID_REQUEST = {
-    "message": "מה הסיכויים שלי ללמוד מדעי המחשב?",
+    "wizard_path": [_VALID_WIZARD_STEP],
     "user_profile": {
         "bagrut_grades": [
             {"subject_code": "math",    "units": 5, "grade": 90},
@@ -33,7 +37,7 @@ _VALID_REQUEST = {
         "psychometric": 750,
     },
     "current_program_id": None,
-    "conversation_history": [],
+    "target_node_id": "gap",
 }
 
 
@@ -52,9 +56,7 @@ class TestRateLimit:
     @pytest.fixture(autouse=True)
     def reset_rate_store(self, monkeypatch):
         """Reset the in-memory rate-limit store before each test."""
-        monkeypatch.setattr(
-            advisor_router, "_rate_store", defaultdict(deque)
-        )
+        monkeypatch.setattr(advisor_router, "_rate_store", defaultdict(deque))
 
     @pytest.mark.asyncio
     async def test_first_request_allowed(self, client):
@@ -88,40 +90,6 @@ class TestRateLimit:
         assert response.status_code == 429
         body = response.json()
         assert "detail" in body
-
-
-# ── Turn cap tests ────────────────────────────────────────────────────────────
-
-class TestTurnCap:
-    @pytest.fixture(autouse=True)
-    def reset_rate_store(self, monkeypatch):
-        monkeypatch.setattr(advisor_router, "_rate_store", defaultdict(deque))
-
-    @pytest.mark.asyncio
-    async def test_exactly_at_turn_limit_is_allowed(self, client):
-        # 20 turns = 40 messages
-        history = [
-            {"role": "user" if i % 2 == 0 else "assistant", "content": f"msg {i}"}
-            for i in range(40)
-        ]
-        payload = {**_VALID_REQUEST, "conversation_history": history}
-        with patch(
-            "app.routers.advisor.chat_stream",
-            return_value=_simple_stream("ok"),
-        ):
-            response = await client.post(_URL, json=payload)
-        assert response.status_code == 200
-
-    @pytest.mark.asyncio
-    async def test_over_turn_limit_returns_400(self, client):
-        # 41 messages > 20 turns * 2
-        history = [
-            {"role": "user" if i % 2 == 0 else "assistant", "content": f"msg {i}"}
-            for i in range(41)
-        ]
-        payload = {**_VALID_REQUEST, "conversation_history": history}
-        response = await client.post(_URL, json=payload)
-        assert response.status_code == 400
 
 
 # ── Streaming response tests ──────────────────────────────────────────────────
@@ -170,10 +138,10 @@ class TestAdvisorChat:
     @pytest.mark.asyncio
     async def test_accepts_request_without_profile(self, client):
         payload = {
-            "message": "שלום, תעזור לי",
+            "wizard_path": [_VALID_WIZARD_STEP],
             "user_profile": {"bagrut_grades": [], "psychometric": None},
             "current_program_id": None,
-            "conversation_history": [],
+            "target_node_id": "gap",
         }
         with patch(
             "app.routers.advisor.chat_stream",
@@ -196,16 +164,29 @@ class TestAdvisorChat:
         assert response.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_empty_message_returns_422(self, client):
-        payload = {**_VALID_REQUEST, "message": ""}
+    async def test_empty_wizard_path_returns_422(self, client):
+        payload = {**_VALID_REQUEST, "wizard_path": []}
         response = await client.post(_URL, json=payload)
         assert response.status_code == 422
 
     @pytest.mark.asyncio
-    async def test_message_too_long_returns_422(self, client):
-        payload = {**_VALID_REQUEST, "message": "x" * 2001}
+    async def test_wizard_path_too_long_returns_422(self, client):
+        # max_length=4; provide 5 steps
+        step = _VALID_WIZARD_STEP
+        payload = {**_VALID_REQUEST, "wizard_path": [step] * 5}
         response = await client.post(_URL, json=payload)
         assert response.status_code == 422
+
+    @pytest.mark.asyncio
+    async def test_max_wizard_path_length_is_allowed(self, client):
+        step = _VALID_WIZARD_STEP
+        payload = {**_VALID_REQUEST, "wizard_path": [step] * 4}
+        with patch(
+            "app.routers.advisor.chat_stream",
+            return_value=_simple_stream("ok"),
+        ):
+            response = await client.post(_URL, json=payload)
+        assert response.status_code == 200
 
     @pytest.mark.asyncio
     async def test_invalid_psychometric_returns_422(self, client):
@@ -217,20 +198,10 @@ class TestAdvisorChat:
         assert response.status_code == 422
 
     @pytest.mark.asyncio
-    async def test_with_conversation_history(self, client):
-        payload = {
-            **_VALID_REQUEST,
-            "conversation_history": [
-                {"role": "user",      "content": "שלום"},
-                {"role": "assistant", "content": "שלום! כיצד אוכל לעזור?"},
-            ],
-        }
-        with patch(
-            "app.routers.advisor.chat_stream",
-            return_value=_simple_stream("follow-up response"),
-        ):
-            response = await client.post(_URL, json=payload)
-        assert response.status_code == 200
+    async def test_missing_target_node_id_returns_422(self, client):
+        payload = {k: v for k, v in _VALID_REQUEST.items() if k != "target_node_id"}
+        response = await client.post(_URL, json=payload)
+        assert response.status_code == 422
 
     @pytest.mark.asyncio
     async def test_cache_control_header_set(self, client):

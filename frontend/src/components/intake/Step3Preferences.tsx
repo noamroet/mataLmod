@@ -12,7 +12,8 @@ import {
 } from '@/types';
 
 export function Step3Preferences() {
-  const t = useTranslations('intake');
+  const t       = useTranslations('intake');
+  const tCommon = useTranslations('common');
   const headingId     = useId();
   const fieldGroupId  = useId();
   const locGroupId    = useId();
@@ -48,7 +49,7 @@ export function Step3Preferences() {
         <legend id={fieldGroupId} className="mb-3 text-sm font-semibold text-gray-800">
           {t('step3.fieldsTitle')}
           <span className="ms-2 text-xs font-normal text-gray-400">
-            {t('common.optional')}
+            {tCommon('optional')}
           </span>
         </legend>
         <p className="mb-3 text-xs text-gray-500">{t('step3.fieldsDescription')}</p>

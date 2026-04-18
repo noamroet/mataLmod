@@ -1,7 +1,11 @@
 'use client';
 
 import { create } from 'zustand';
-import type { AdvisorMessage } from '@/types';
+
+interface AdvisorMessage {
+  role:    'user' | 'assistant';
+  content: string;
+}
 
 // ── State ─────────────────────────────────────────────────────────────────────
 
